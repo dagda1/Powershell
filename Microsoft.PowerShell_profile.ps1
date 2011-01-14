@@ -1,4 +1,5 @@
 set-alias notepad "C:\Program Files (x86)\Notepad++\notepad++.exe"
+set-alias zip "C:\Program Files\7-Zip\7z.exe"
 
 function gototrunk{set-location C:\projects\ncontinuity2\trunk}
 
