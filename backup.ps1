@@ -4,5 +4,5 @@ Write-Host deleting backup $backup
 rm $backup -force -recurse
 mkdir $backup
 Write-Host backing up from $live to $backup
-cp $live $backup -recurse
+cp $live\* $backup\ -recurse
 Write-Host finished!
