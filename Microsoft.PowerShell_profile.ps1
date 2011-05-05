@@ -7,7 +7,7 @@ function gotoprojects{set-location C:\projects}
 
 function gotoprofile{set-location C:\Users\paul.cowan\Documents\WindowsPowerShell}
 
-function gotobuild{set-location "C:\projects\ncontinuity2\trunk\build\net-4.0\debug\_PublishedWebsites"}
+function gotobuild{set-location "C:\projects\continuity2\build\net-4.0\debug\_PublishedWebsites"}
 
 function gotodownloads{set-location C:\Users\paul.cowan\Downloads}
 
@@ -24,6 +24,7 @@ function openscratch{notepad C:\users\paul.cowan\desktop\scratch.txt}
 function opencatscratch{cat C:\users\paul.cowan\desktop\scratch.txt}
 
 function gotoc2{set-location C:\projects\continuity2}
+
 
 
 set-alias tr gototrunk
