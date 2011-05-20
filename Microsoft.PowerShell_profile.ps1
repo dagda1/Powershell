@@ -9,9 +9,6 @@ Get-Module | Format-Table -autosize ModuleType, Name
 Write-Host "To list all cmdlets from a specific module use " -NoNewLine
 Write-Host -foregroundcolor yellow "PS:> Get-Command -Module <Name>"
 
-set-alias notepad "C:\Program Files (x86)\Notepad++\notepad++.exe"
-set-alias zip "C:\Program Files\7-Zip\7z.exe"
-
 function prompt
 {
 	$promptText = "PS>";
@@ -32,6 +29,7 @@ function prompt
 	return " "
 }
 
+function delete_all{rm .\* -rec -force}
 function gototrunk{set-location C:\projects\ncontinuity2\trunk}
 function gotoprojects{set-location C:\projects}
 function gotoprofile{set-location C:\Users\paul.cowan\Documents\WindowsPowerShell}
@@ -45,6 +43,13 @@ function openscratch{notepad C:\users\paul.cowan\desktop\scratch.txt}
 function opencatscratch{cat C:\users\paul.cowan\desktop\scratch.txt}
 function gotoc2{set-location C:\projects\continuity2}
 
+#git commands 
+function ga{ git add . -v}
+function gmt([string] $message) {git commit -m $message}
+function glo{git log}
+function gs{git status}
+function gba{git branch -a}
+
 function ff ([string] $glob) { get-childitem -recurse -include $glob }
 
 function osr { shutdown -r -t 5 }
@@ -55,9 +60,11 @@ function rmd ([string] $glob) { remove-item -recurse -force $glob }
 
 function whoami { (get-content env:\userdomain) + "\" + (get-content env:\username); }
 
-function strip-extension ([string] $filename) { 
-[system.io.path]::getfilenamewithoutextension($filename)
+function strip-extension ([string] $filename) 
+{ 
+	[system.io.path]::getfilenamewithoutextension($filename)
 } 
+
 function New-PSSecureRemoteSession
 {
 	param ($sshServerName, $Cred)
@@ -72,6 +79,7 @@ function New-PSRemoteSession
 	Enter-PSSession -Session $shSession
 }
 
+set-alias deleteall delete_all
 set-alias ssh New-PSSecureRemoteSession
 set-alias sh New-PSRemoteSession
 set-alias grep select-string
@@ -91,3 +99,5 @@ set-alias catscratch opencatscratch
 set-alias ie "C:\Program Files\Internet Explorer\iexplore.exe"
 set-alias c2 gotoc2
 set-alias c2web "C:\projects\continuity2\ncontinuity2.web.sln"
+set-alias notepad "C:\Program Files (x86)\Notepad++\notepad++.exe"
+set-alias zip "C:\Program Files\7-Zip\7z.exe"
