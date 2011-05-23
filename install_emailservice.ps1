@@ -37,7 +37,9 @@ net start $version
 
 rm C:\inetpub\ftproot\* -rec -force
 
-Write-Host "waiting for service to start!"
+Write-Host "waiting 5 seconds for service to start!"
+
+[System.Threading.Thread]::Sleep(5000)
 
 notepad $destination\logs\CurrentLog.txt
 
