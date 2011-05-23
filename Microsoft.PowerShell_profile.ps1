@@ -46,9 +46,10 @@ function gotoc2{set-location C:\projects\continuity2}
 #git commands 
 function ga{ git add . -v}
 function gmt([string] $message) {git commit -m $message}
+function gma([string] $message) {git commit -am $message}
 function glo{git log}
 function gs{git status}
-function gba{git branch -a}
+function gba{git branch}
 
 function ff ([string] $glob) { get-childitem -recurse -include $glob }
 
