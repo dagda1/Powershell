@@ -18,7 +18,7 @@ if(!($version -match "^emailservice-\d\.\d\.\d"))
 	throw New-Object system.Exception("Wrongly named email service zip")
 }
 
-ls  c:\Inetpub\ftproot | where {$_.Extension -ne '.7z'}| Remove-Item -Recurse -force
+ls  $ftp | where {$_.Extension -ne '.7z'}| Remove-Item -Recurse -force
 
 net stop $version
 
@@ -35,7 +35,7 @@ rm $destination\logs -rec -force
 
 net start $version
 
-rm C:\inetpub\ftproot\* -rec -force
+rm $ftpls\* -rec -force
 
 Write-Host "waiting 5 seconds for service to start!"
 
