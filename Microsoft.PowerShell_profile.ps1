@@ -27,7 +27,7 @@ function prompt
 	write-host $promptText -NoNewLine -ForegroundColor $color
 	$host.UI.RawUI.WindowTitle = $title;
 	return " "
-}
+}                                   
 
 function delete_all{rm .\* -rec -force}
 function gototrunk{set-location C:\projects\ncontinuity2\trunk}
@@ -46,9 +46,10 @@ function gotoc2{set-location C:\projects\continuity2}
 #git commands 
 function ga{ git add . -v}
 function gmt([string] $message) {git commit -m $message}
+function gma([string] $message) {git commit -am $message}
 function glo{git log}
 function gs{git status}
-function gba{git branch -a}
+function gba{git branch}
 
 function ff ([string] $glob) 
 { 
@@ -81,8 +82,18 @@ function New-PSSecureRemoteSession
 function New-PSRemoteSession
 {
 	param ($shServerName, $Cred)
-	$shSession = New-PSSession $shServerName -Credential $Cred -ConfigurationName C2Remote
+	$shSession = New-PSSession $shServerName -Credential $Cred
 	Enter-PSSession -Session $shSession
+}
+
+function PS-Production
+{
+	Enter-PSSession -ComputerName 89.251.114.100 -Credential Get-Credential
+}
+
+function PS-Demo
+{
+	Enter-PSSession demox
 }
 
 set-alias deleteall delete_all
@@ -102,6 +113,7 @@ set-alias live gotocurrent
 set-alias live_build gotocurrentbuild
 set-alias scratch openscratch
 set-alias catscratch opencatscratch
+set-alias ch "C:\Users\paul.cowan\AppData\Local\Google\Chrome\Application\chrome.exe"
 set-alias ie "C:\Program Files\Internet Explorer\iexplore.exe"
 set-alias c2 gotoc2
 set-alias c2web "C:\projects\continuity2\ncontinuity2.web.sln"
