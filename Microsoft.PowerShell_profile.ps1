@@ -50,7 +50,10 @@ function glo{git log}
 function gs{git status}
 function gba{git branch -a}
 
-function ff ([string] $glob) { get-childitem -recurse -include $glob }
+function ff ([string] $glob) 
+{ 
+	get-childitem -recurse -include $glob 
+}
 
 function osr { shutdown -r -t 5 }
 
@@ -58,7 +61,10 @@ function osh { shutdown -h -t 5 }
 
 function rmd ([string] $glob) { remove-item -recurse -force $glob }
 
-function whoami { (get-content env:\userdomain) + "\" + (get-content env:\username); }
+function whoami 
+{ 
+	(get-content env:\userdomain) + "\" + (get-content env:\username); 
+}
 
 function strip-extension ([string] $filename) 
 { 
@@ -99,5 +105,5 @@ set-alias catscratch opencatscratch
 set-alias ie "C:\Program Files\Internet Explorer\iexplore.exe"
 set-alias c2 gotoc2
 set-alias c2web "C:\projects\continuity2\ncontinuity2.web.sln"
-set-alias notepad "C:\Program Files (x86)\Notepad++\notepad++.exe"
+set-alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
 set-alias zip "C:\Program Files\7-Zip\7z.exe"
