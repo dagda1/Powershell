@@ -1,4 +1,6 @@
-﻿$ftp = "C:\Inetpub\ftproot"
+﻿set-location C:\inetpub\ftproot
+
+$ftp = "C:\Inetpub\ftproot"
 $zips = @(ls $ftp\* -Include *.7z)
 
 if(@($zips).Count -lt 1)
@@ -22,7 +24,7 @@ ls  $ftp | where {$_.Extension -ne '.7z'}| Remove-Item -Recurse -force
 
 net stop $version
 
-zip X $zips[0].FullName
+& "C:\Program Files\7-Zip\7z.exe"  X $zips[0].FullName
 
 rm $zips[0].FullName -Force
 
@@ -35,11 +37,11 @@ rm $destination\logs -rec -force
 
 net start $version
 
-rm $ftpls\* -rec -force
+rm $ftp\* -rec -force
 
 Write-Host "waiting 5 seconds for service to start!"
 
 [System.Threading.Thread]::Sleep(5000)
 
-notepad $destination\logs\CurrentLog.txt
+cat $destination\logs\CurrentLog.txt
 

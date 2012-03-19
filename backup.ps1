@@ -1,8 +1,11 @@
+set-location "C:\inetpub\ftproot"
+
 $ftp = "C:\Inetpub\ftproot"
 $zips = @(ls $ftp\* -Include *.7z)
 $client = [System.IO.Path]::GetFileNameWithoutExtension($zips[0])
 $backup = [string]::Format("D:\backups\{0}", $client)
 $live = [string]::Format("D:\www\{0}", $client)
+$logs = [string]::Format("D:\www\{0}\Logs", $client)
 
 Write-Host file $zips[0].FullName
 Write-Host client $client
@@ -28,7 +31,7 @@ Write-Host backing up from $live to $backup
 cp $live\* $backup\ -force -recurse
 
 Write-Host back up finished!
-zip X $zips[0].FullName
+& "C:\Program Files\7-Zip\7z.exe" X $zips[0].FullName
 
 rm $zips[0].FullName
 
@@ -38,5 +41,8 @@ cp $ftp\* $live -rec -force
 
 Write-Host deleting deployment
 rm $ftp\* -Recurse -Force
+
+Write-Host deleting old log files
+rm $logs -Recurse -Force
 
 Write-Host finished!
