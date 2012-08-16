@@ -88,7 +88,7 @@ function New-PSRemoteSession
 
 function PS-Production
 {
-  $pass = convertto-securestring "0c3anrac5" -asplaintext -force
+  $pass = convertto-securestring "XXXXXX" -asplaintext -force
   $mycred = new-object -typename System.Management.Automation.PSCredential -argumentlist "CT2-WS1\CT2.Admin",$pass
 	Enter-PSSession -ComputerName 89.251.114.100 -Credential $mycred
 }
