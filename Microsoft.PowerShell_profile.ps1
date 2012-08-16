@@ -1,5 +1,5 @@
 $snapins = Get-PSSnapin -Registered
-$snapins | Add-PSSnapin
+#$snapins | Add-PSSnapin
  
 Get-Module -ListAvailable | Import-Module
 
@@ -88,7 +88,9 @@ function New-PSRemoteSession
 
 function PS-Production
 {
-	Enter-PSSession -ComputerName 89.251.114.100 -Credential Get-Credential
+  $pass = convertto-securestring "0c3anrac5" -asplaintext -force
+  $mycred = new-object -typename System.Management.Automation.PSCredential -argumentlist "CT2-WS1\CT2.Admin",$pass
+	Enter-PSSession -ComputerName 89.251.114.100 -Credential $mycred
 }
 
 function PS-Demo
@@ -117,5 +119,7 @@ set-alias ch "C:\Users\paul.cowan\AppData\Local\Google\Chrome\Application\chrome
 set-alias ie "C:\Program Files\Internet Explorer\iexplore.exe"
 set-alias c2 gotoc2
 set-alias c2web "C:\projects\continuity2\ncontinuity2.web.sln"
+set-alias c2sln "C:\projects\continuity2\ncontinuity2.web.sln"
+set-alias emailsln "C:\projects\continuity2\ncontinuity2.emailservice.sln"
 set-alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
 set-alias zip "C:\Program Files\7-Zip\7z.exe"
