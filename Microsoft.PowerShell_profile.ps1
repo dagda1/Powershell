@@ -1,14 +1,3 @@
-$snapins = Get-PSSnapin -Registered
-#$snapins | Add-PSSnapin
- 
-Get-Module -ListAvailable | Import-Module
-
-Get-PSSnapin | Format-Table -autosize PSVersion, Name
-Get-Module | Format-Table -autosize ModuleType, Name
- 
-Write-Host "To list all cmdlets from a specific module use " -NoNewLine
-Write-Host -foregroundcolor yellow "PS:> Get-Command -Module <Name>"
-
 function prompt
 {
 	$promptText = "PS>";
@@ -29,19 +18,6 @@ function prompt
 	return " "
 }                                   
 
-function delete_all{rm .\* -rec -force}
-function gototrunk{set-location C:\projects\ncontinuity2\trunk}
-function gotoprojects{set-location C:\projects}
-function gotoprofile{set-location C:\Users\paul.cowan\Documents\WindowsPowerShell}
-function gotobuild{set-location "C:\projects\continuity2\build\net-4.0\debug\_PublishedWebsites"}
-function gotodownloads{set-location C:\Users\paul.cowan\Downloads}
-function gotoncontinuity2{set-location c:\projects\ncontinuity2}
-function gotolead{set-location c:\projects\leadcapturer}
-function gotocurrent{set-location "C:\projects\ncontinuity2\branches\2.4.0"}
-function gotocurrentbuild{set-location "C:\projects\ncontinuity2\branches\2.4.0\build\net-4.0\debug\_PublishedWebsites"}
-function openscratch{notepad C:\users\paul.cowan\desktop\scratch.txt}
-function opencatscratch{cat C:\users\paul.cowan\desktop\scratch.txt}
-function gotoc2{set-location C:\projects\continuity2}
 
 #git commands 
 function ga{ git add . -v}
@@ -50,17 +26,12 @@ function gma([string] $message) {git commit -am $message}
 function glo{git log}
 function gs{git status}
 function gba{git branch}
+function gotoCOM{cd C:\projects\coms_service_portal}
+function goto-pr{cd C:\projects}
 
-function ff ([string] $glob) 
-{ 
-	get-childitem -recurse -include $glob 
-}
+function go-home{cd C:\users\cowanp}
 
-function osr { shutdown -r -t 5 }
 
-function osh { shutdown -h -t 5 }
-
-function rmd ([string] $glob) { remove-item -recurse -force $glob }
 
 function whoami 
 { 
@@ -70,56 +41,43 @@ function whoami
 function strip-extension ([string] $filename) 
 { 
 	[system.io.path]::getfilenamewithoutextension($filename)
-} 
-
-function New-PSSecureRemoteSession
-{
-	param ($sshServerName, $Cred)
-	$Session = New-PSSession $sshServerName -UseSSL -Credential $Cred -ConfigurationName C2Remote
-	Enter-PSSession -Session $Session
 }
 
-function New-PSRemoteSession
-{
-	param ($shServerName, $Cred)
-	$shSession = New-PSSession $shServerName -Credential $Cred
-	Enter-PSSession -Session $shSession
+function touch {
+  Param(
+    [Parameter(Mandatory=$true)]
+    [string]$Path
+  )
+
+  if (Test-Path -LiteralPath $Path) {
+    (Get-Item -Path $Path).LastWriteTime = Get-Date
+  } else {
+    New-Item -Type File -Path $Path
+  }
 }
 
-function PS-Production
+function Remove-MergedBranches
 {
-  $pass = convertto-securestring "XXXXXX" -asplaintext -force
-  $mycred = new-object -typename System.Management.Automation.PSCredential -argumentlist "CT2-WS1\CT2.Admin",$pass
-	Enter-PSSession -ComputerName 89.251.114.100 -Credential $mycred
+  git branch --merged |
+    ForEach-Object { $_.Trim() } |
+    Where-Object {$_ -NotMatch "^\*"} |
+    Where-Object {-not ( $_ -Like "*master" )} |
+    Where-Object {-not ( $_ -Like "*develop" )} |
+    ForEach-Object { git branch -d $_ }
 }
 
-function PS-Demo
-{
-	Enter-PSSession demox
-}
 
-set-alias deleteall delete_all
-set-alias ssh New-PSSecureRemoteSession
-set-alias sh New-PSRemoteSession
+$env:path += ";" + (Get-Item "Env:ProgramFiles").Value + "\Git\bin"
+
+
+set-alias coms gotoCOM
+set-alias comssln C:\projects\coms_service_portal\COMSServicePortal.sln
+set-alias home go-home
+set-alias pr goto-pr
+set-alias comsdb C:\projects\coms_service_portal\database\bin\Debug\Database.exe
+
 set-alias grep select-string
-set-alias ssh New-PSSecureRemoteSession
-set-alias sh New-PSRemoteSession
-set-alias tr gototrunk
-set-alias pr gotoprojects
-set-alias profile gotoprofile
-set-alias build gotobuild
-set-alias downloads gotodownloads
-set-alias nc gotoncontinuity2
-set-alias lead gotolead
-set-alias live gotocurrent
-set-alias live_build gotocurrentbuild
-set-alias scratch openscratch
-set-alias catscratch opencatscratch
-set-alias ch "C:\Users\paul.cowan\AppData\Local\Google\Chrome\Application\chrome.exe"
-set-alias ie "C:\Program Files\Internet Explorer\iexplore.exe"
-set-alias c2 gotoc2
-set-alias c2web "C:\projects\continuity2\ncontinuity2.web.sln"
-set-alias c2sln "C:\projects\continuity2\ncontinuity2.web.sln"
-set-alias emailsln "C:\projects\continuity2\ncontinuity2.emailservice.sln"
-set-alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
-set-alias zip "C:\Program Files\7-Zip\7z.exe"
+# Load posh-git example profile
+. 'C:\Users\cowanp\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
+
+Set-PSReadlineOption -EditMode Emacs
